@@ -20,6 +20,7 @@
 import hljs from 'highlight.js'
 import marked from 'marked'
 import {markdown} from 'markdown'
+import {axiosPost} from '../utils/js/requestApi.js'
 export default {
   name: 'HelloWorld',
   data () {
@@ -59,6 +60,9 @@ export default {
           });
       },
       fileInput(e){
+        axiosPost('/TetsController/test',{}).then(res => {
+          
+        })
         console.log(e);
         var file = e.target.files[0];
         if(window.FileReader) {
@@ -74,45 +78,35 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style >
-.hello{
-  height: 100vh;
-}
-.hello .hello-head{
-  height: 10%;
-}
-.hello-head img{
-  width: 60px;
-}
-.marked-body{
-  height: 90%;
-  overflow: hidden;
-}
-.marked-body > div{
-  width: 50%;
-  float: left;
-  height: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-}
-textarea,.marked{
-  resize:none;
-  width: 100%;
-  height: 100%;
-  border: 1px solid #ccc;
-}
-.marked{
-  padding: 10px;
-  overflow: auto;
-}
-.marked blockquote{
-  border-left: 2px solid #009A61;
-  padding-left: 10px;
-}
-.marked ul{
-  padding-left: 10px;
-}
-.marked pre{
-  margin: 10px 0;
-}
+<style  lang="stylus">
+.hello
+  height: 100vh
+  .hello-head
+    height: 10%
+    img
+      width: 60px
+  .marked-body
+    height: 90%
+    overflow: hidden
+    >div
+      width: 50%
+      float: left
+      height: 100%
+      padding: 10px
+      box-sizing: border-box
+    textarea,.marked
+      resize:none
+      width: 100%
+      height: 100%
+      border: 1px solid #ccc
+    .marked
+      padding: 10px
+      overflow: auto
+      blockquote
+        border-left: 2px solid #009A61
+        padding-left: 10px
+      ul
+        padding-left: 10px
+      pre
+        margin: 10px 0
 </style>

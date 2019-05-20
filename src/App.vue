@@ -10,8 +10,8 @@ export default {
 }
 </script>
 
-<style>
-#app {
+<style lang="stylus">
+#app
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-}
+
 </style>
