@@ -24,5 +24,6 @@ export default {
  * 获取当前系统IP
  */
 function getIP() {
-        return 'http://' + window.location.hostname + ':8123';
+        // return 'http://' + window.location.hostname + ':8123';
+        return 'http://47.105.161.197:8123';
 }
