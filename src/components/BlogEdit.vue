@@ -1,7 +1,10 @@
 <template>
   <div class="hello">
     <div class="hello-head">
-      <el-button type="primary" :loading="true">发布文章</el-button>
+      <el-button type="primary" @click.native="issue" :loading="issueLoading" class="issue">发布文章</el-button>
+      <el-input v-model="blogTitle">
+        <template slot="prepend">文章标题</template>
+      </el-input>
     </div>
     <div class="marked-body">
       <div>
@@ -25,7 +28,7 @@
           ></textarea>
         </div>
         <div>
-          <div class="marked" v-html="msg" id="marked"></div>
+          <markdown-html :markdownText="markdownText"></markdown-html>
         </div>
       </div>  
     </div>
@@ -52,89 +55,46 @@
 
 <script>
 import { Message } from 'element-ui';
-import hljs from 'highlight.js'
-import marked from 'marked'
 import {markdown} from 'markdown'
 import {axiosPost} from '../utils/js/requestApi.js'
 import baseData from '../utils/js/baseData.js'
-// import {ElDialog} from 'element-ui'
+import MarkdownHtml from './MarkdownHtml'
 export default {
   name: 'HelloWorld',
-
+  components:{
+    MarkdownHtml
+  },
   data () {
     return {
-      markdownText: '123456789',
-      filesrc:'',
-      fileList:[],
+      //当前编辑的 文本
+      markdownText: 'Markdown文本',
+      //文本域中 选中的开始位置
       selectionStart: 0,
+      //文本域中 选中的结束位置
       selectionEnd: 0,
-      dialogVisible:false
+      //是否显示图片上传弹窗
+      dialogVisible:false,
+      //文章标题
+      blogTitle:'莫得标题的文章',
+      //发布文章 按钮加载状态
+      issueLoading:false
     }
   },
   mounted() {
-      this.markdown()
-  },
-  computed: {
-      msg(){
-          let markedHtml = marked( this.markdownText ,{ sanitize: true });
-          // let markedHtml = markdown.toHTML( this.markdownText);
-          setTimeout(() => {
-            let blocks = document.getElementById('marked').querySelectorAll('pre code');
-            blocks.forEach((block)=>{
-              hljs.highlightBlock(block)
-            })
-          }, 100);
-          return markedHtml;
-      }
+      axiosPost('/FileController/getBolg',{
+        blogFileName:'3e0792daef4a41deb24bb0c5cc85d82d'
+      }).then(res => {
+        if (res.status == 0) {
+          this.markdownText = res.data.markdownText;
+        }
+      })
   },
   methods: {
-    /**
-     * 配置markdown
-     */
-      markdown() {
-          marked.setOptions({
-              renderer: new marked.Renderer(),
-              gfm: true,
-              tables: true,
-              breaks: true,
-              pedantic: false,
-              sanitize: false,
-              smartLists: true,
-              smartypants: false
-          });
-      },
-      /**
-       * 监听图片上传 用户预览上传图片
-       */
-      fileInput(e){
-        let file = e.target.files[0];
-        let arr = ['png','jpg','gif','jpeg',]
-        //图片不能大于 2MB
-        if (file.size > 1024*1024*2) {
-          this.$message.warning('图片不能大于 2MB！');
-          return;
-        }else if(arr.some(item => item == file.type)){
-          this.$message.warning('文件格式错误！');
-          return;
-        }
-        this.file = file;
-        if(window.FileReader) {
-          var fr = new FileReader();
-          fr.onloadend = (even) => {
-            this.filesrc = even.target.result;
-          }
-          fr.readAsDataURL(this.file);
-        }
-      },
-      /**
-       * 上传文件
-       */
-      upload(){
-        axiosPost('/FileController/onefileUpload',{
-          file:this.file
-        }).then(res => {
-          
-        })
+      issue(){
+        this.issueLoading = true;
+        setTimeout(() => {
+          this.issueLoading = false;
+        }, 2000);
       },
       /**
        * 用于监听  textarea 的点击事件 及 输入事件
@@ -267,15 +227,14 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style  lang="stylus">
+<style lang="stylus" scoped>
 .hello
   height: 100vh
   margin 0 20px
   .hello-head
     height: 100px
-    img
-      width: 60px
+    .issue
+      float right
   .marked-body
     height: calc(100% - 100px)
     padding-bottom 10px
@@ -326,22 +285,9 @@ export default {
         height: 100%
         box-sizing: border-box
         border: 1px solid #ccc
-      textarea,.marked
-        resize:none
-        width: 100%
-        height: 100%
-        border none
-      .marked
-        padding: 10px
-        overflow: auto
-        blockquote
-          border-left: 2px solid #009A61
-          padding: 20px 0 20px 10px
-          margin: 10px 0
-        ul
-          padding-left: 10px
-        pre
-          margin: 10px 0
-        img 
-          width 100%
+        textarea
+            resize:none
+            width: 100%
+            height: 100%
+            border none
 </style>
