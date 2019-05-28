@@ -17,11 +17,12 @@
     "highlight.js": "^9.15.6",
     "markdown": "^0.5.0",
     "marked": "^0.6.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vux-loader": "^1.2.9",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2"
+    "weixin-js-sdk": "^1.4.0-test"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
