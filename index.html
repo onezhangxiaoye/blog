@@ -4,9 +4,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>exprice</title>
+    <style>
+      .canvas{
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+      }
+      #app{
+        position: absolute;
+        left: 0;
+        right: 0;
+        z-index: 1;
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>
+    <div class="canvas">
+        <canvas id="canvas" width="0" height="0"></canvas>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>

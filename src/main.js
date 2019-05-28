@@ -13,6 +13,9 @@ Vue.use(ElementUI)
 
 Vue.config.productionTip = false
 
+//默认样式重置
+import './styles/reset.css'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

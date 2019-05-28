@@ -5,13 +5,19 @@
 </template>
 
 <script>
+import {createCanvas} from './utils/bgcanvas/circleLine.js'
 export default {
-  name: 'App'
+  name: 'App',
+  mounted(){
+    //创建背景
+    createCanvas();
+  },
 }
 </script>
 
 <style lang="stylus">
+@import "./styles/font.css";
 #app
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-
+  font-family: xingshu;
+  background-color rgba(238, 238, 238, .5)
 </style>
