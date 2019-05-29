@@ -9,6 +9,7 @@ import Blog from '@/components/Blog'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -25,12 +26,12 @@ export default new Router({
           name: 'Blog',
           component: Blog
         },
-        {
-          path: '/BlogEdit',
-          name: 'BlogEdit',
-          component: BlogEdit
-        },
       ]
+    },
+    {
+      path: '/BlogEdit',
+      name: 'BlogEdit',
+      component: BlogEdit
     },
   ]
 })

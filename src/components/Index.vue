@@ -2,6 +2,7 @@
   <div class="index">
     <header>
       <span>张小叶的BLOG</span>
+      <a @click="write">写文章</a>
     </header>
     <div class="index-content">
         <router-view/>
@@ -36,9 +37,10 @@ export default {
       console.log(tab, event);
     },
     toTop(){
-      console.log(window);
-      // document.getElementById('app').scrollTo(0);
       window.scrollTo(0,0);
+    },
+    write(){
+        this.$router.push('/BlogEdit')
     }
   },
 }
@@ -50,10 +52,14 @@ export default {
     header 
         background-color #ccc
         padding 0 40px
-        span 
+        height 50px
+        display flex
+        align-items center
+        justify-content space-between
+        span,a
           font-weight 800
           font-size 40px
-        
+          cursor pointer
     .index-content
       padding 0 40px
     .to-top

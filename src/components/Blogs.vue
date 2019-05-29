@@ -3,15 +3,15 @@
     <div class="blogs-menu">
         <el-col>
             <el-menu
-            default-active="0"
+            default-active="1"
             class="el-menu-vertical-demo"
             background-color="transparent"
             @select="handleSelect"
             text-color="#000"
             active-text-color="#409EFF">
-            <el-menu-item v-for="(BlogType,index) in BlogTypes" :index="index + ''" :key="index">
+            <el-menu-item v-for="blogType in blogTypes" :index="blogType.blogTypeId + ''" :key="blogType.blogTypeId">
                 <i class="el-icon-menu"></i>
-                <span slot="title">{{BlogType.blogTypeTitle}}</span>
+                <span slot="title">{{blogType.blogTypeTitle}}</span>
             </el-menu-item>
             </el-menu>
         </el-col>
@@ -40,7 +40,7 @@ export default {
     return {
       markdownText: '',
       blogs:[],
-      BlogTypes:[]
+      blogTypes:[]
     }
   },
   components:{
@@ -57,13 +57,22 @@ export default {
       })
       axiosPost('/BlogTypeController/selectAll',{}).then(res => {
         if (res.status == 0) {
-          this.BlogTypes = res.data;
+          this.blogTypes = res.data;
+          localStorage.setItem('blogTypes',JSON.stringify(res.data));
         }
       })
   },
   methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
+        axiosPost('/BlogsController/selectBlogsByUserId',{
+          userId:3,
+          blogTypeId:key,
+        }).then(res => {
+          if (res.status == 0) {
+            this.blogs = res.data;
+          }
+        })
       },
       toBlog(blogFileName){
         console.log(1321312312);

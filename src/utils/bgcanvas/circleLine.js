@@ -100,7 +100,6 @@ export function createCanvas() {
     var mouseX;
     var mouseY;
     canvas.onmousemove = function (e) {
-        console.log(e)
         var ev = event || e;
         mouseX = ev.offsetX;
         mouseY = ev.offsetY;

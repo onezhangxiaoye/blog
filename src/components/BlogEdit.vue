@@ -1,11 +1,20 @@
 <template>
   <div class="hello">
-    <div class="hello-head">
+    <header class="hello-head">
+      <el-select v-model="blogTypeId" placeholder="请选择文章分类">
+        <el-option
+          v-for="blogType in blogTypes"
+          :key="blogType.blogTypeId"
+          :label="blogType.blogTypeTitle"
+          :value="blogType.blogTypeId">
+        </el-option>
+      </el-select>
+      <el-input class="password" v-model="password" placeholder="请输入password"></el-input>
       <el-button type="primary" @click.native="issue" :loading="issueLoading" class="issue">发布文章</el-button>
       <el-input v-model="blogTitle">
         <template slot="prepend">文章标题</template>
       </el-input>
-    </div>
+    </header>
     <div class="marked-body">
       <div>
         <ul>
@@ -54,9 +63,9 @@
 </template>
 
 <script>
-import { Message } from 'element-ui';
 import {markdown} from 'markdown'
 import {axiosPost} from '../utils/js/requestApi.js'
+import {timeFormatting} from '../utils/js/commonUtils'
 import baseData from '../utils/js/baseData.js'
 import MarkdownHtml from './MarkdownHtml'
 export default {
@@ -77,24 +86,47 @@ export default {
       //文章标题
       blogTitle:'莫得标题的文章',
       //发布文章 按钮加载状态
-      issueLoading:false
+      issueLoading:false,
+      //需要发布 博客的类型id
+      blogTypeId:'',
+      blogTypes:[],
+      password:'',
     }
   },
   mounted() {
-      axiosPost('/FileController/getBolg',{
-        blogFileName:'3e0792daef4a41deb24bb0c5cc85d82d'
-      }).then(res => {
-        if (res.status == 0) {
-          this.markdownText = res.data.markdownText;
-        }
-      })
+      this.blogTypes = JSON.parse(localStorage.getItem('blogTypes'));
   },
   methods: {
       issue(){
+        if (this.password != '$12317xiang') {
+          this.$message.error('密码错误！');
+          return;
+        }
+        let {markdownText,blogTitle,blogTypeId} = this;
+        if (markdownText.length < 10 ) {
+          this.$message.error('文章字数不能小于10');
+          return;
+        }else if (!blogTitle) {
+          this.$message.error('文章标题不能为空');
+          return;
+        }else if (!blogTypeId) {
+          this.$message.error('请选择文章分类');
+          return;
+        }
         this.issueLoading = true;
-        setTimeout(() => {
-          this.issueLoading = false;
-        }, 2000);
+        axiosPost('/BlogsController/addBlog',{
+          markdown: markdownText,
+          userId: 3,
+          blogTimestamp:timeFormatting(),
+          blogTitle:blogTitle,
+          blogTypeId:blogTypeId,
+          blogStatus:0,
+        }).then(res => {
+          if (res.status == 0) {
+            this.$message.error('发布成功');
+            this.issueLoading = false;
+          }
+        })
       },
       /**
        * 用于监听  textarea 的点击事件 及 输入事件
@@ -108,7 +140,11 @@ export default {
        * 文件上传的回调
        */
       submitUpload(){
-        this.$refs.upload.submit();
+        if (this.password == '$12317xiang') {
+          this.$refs.upload.submit();
+        }else{
+          this.$message.error('密码错误！');
+        }
       },
       /**
        * 文件上传之前得钩子
@@ -233,6 +269,8 @@ export default {
   margin 0 20px
   .hello-head
     height: 100px
+    .password
+      width 300px
     .issue
       float right
   .marked-body
