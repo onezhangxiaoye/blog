@@ -9,7 +9,6 @@
           :value="blogType.blogTypeId">
         </el-option>
       </el-select>
-      <el-input class="password" v-model="password" placeholder="请输入password"></el-input>
       <el-button type="primary" @click.native="issue" :loading="issueLoading" class="issue">发布文章</el-button>
       <el-input v-model="blogTitle">
         <template slot="prepend">文章标题</template>
@@ -52,7 +51,8 @@
       :multiple="false"
       :on-success='fileUploadSuccess'
       :before-upload="beforeAvatarUpload"
-      action="http://47.105.161.197:8123/FileController/onefileUpload"
+      action="http://localhost:8123/FileController/onefileUpload"
+      :data="pass"
       :auto-upload="false">
       <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
       <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
@@ -69,7 +69,7 @@ import {timeFormatting} from '../utils/js/commonUtils'
 import baseData from '../utils/js/baseData.js'
 import MarkdownHtml from './MarkdownHtml'
 export default {
-  name: 'HelloWorld',
+  name: 'BlogEdit',
   components:{
     MarkdownHtml
   },
@@ -90,18 +90,17 @@ export default {
       //需要发布 博客的类型id
       blogTypeId:'',
       blogTypes:[],
-      password:'',
+      pass:{},
     }
   },
   mounted() {
       this.blogTypes = JSON.parse(localStorage.getItem('blogTypes'));
+      this.pass = {
+        pass:localStorage.getItem('pass')
+      };
   },
   methods: {
       issue(){
-        if (this.password != '$12317xiang') {
-          this.$message.error('密码错误！');
-          return;
-        }
         let {markdownText,blogTitle,blogTypeId} = this;
         if (markdownText.length < 10 ) {
           this.$message.error('文章字数不能小于10');
@@ -123,7 +122,10 @@ export default {
           blogStatus:0,
         }).then(res => {
           if (res.status == 0) {
-            this.$message.error('发布成功');
+            this.$message.success('发布成功！');
+            this.issueLoading = false;
+          }else{
+            this.$message.error(res.message);
             this.issueLoading = false;
           }
         })
@@ -140,11 +142,7 @@ export default {
        * 文件上传的回调
        */
       submitUpload(){
-        if (this.password == '$12317xiang') {
           this.$refs.upload.submit();
-        }else{
-          this.$message.error('密码错误！');
-        }
       },
       /**
        * 文件上传之前得钩子
@@ -165,10 +163,9 @@ export default {
        * 文件上传成功得回调
        */
       fileUploadSuccess(response, file, fileList){
-
         if (response.status == 0) {
           let imgUrl = '![123213](' + baseData.imgPath + response.data.imgName + ')';
-          this.$message.warning('上传成功！');
+          this.$message.success('上传成功！');
           this.$refs.upload.clearFiles();
           let value = this.markdownText;
           let chooseStr1 = value.substring( 0,this.selectionStart);
@@ -176,7 +173,7 @@ export default {
           this.markdownText = chooseStr1 + imgUrl + chooseStr2;
           this.dialogVisible = false;
         }else{
-          this.$message.warning('上传图片出错！');
+          this.$message.warning(response.message);
         }
       },
       /**

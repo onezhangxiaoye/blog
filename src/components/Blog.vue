@@ -1,7 +1,7 @@
 <template>
   <div class="blog" v-if="blog">
     <h1>{{blog.blogTitle}}</h1>
-    <p>发布时间：{{blog.blogTimestamp}}</p>
+    <p>{{blog.blogTimestamp}}</p>
     <markdown-html :markdownText="blog.blogContent"></markdown-html>
   </div>
 </template>
@@ -41,15 +41,14 @@ export default {
   >h1
     text-align center
     line-height 50px
-    font-size 42px
   >p
     text-align right 
     font-size 18px
     border-bottom 1px solid #ccc
-@media screen and (max-width 700px)
+@media screen and (max-width 800px)
   .blog
     width auto
-@media screen and (min-width 700px)
+@media screen and (min-width 800px)
   .blog
     width 700px
     margin 0 auto

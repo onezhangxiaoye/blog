@@ -1,6 +1,6 @@
 <template>
   <div class="blogs">
-    <div class="blogs-menu">
+    <div class="blogs-menu" v-if="innerWidth > 800">
         <el-col>
             <el-menu
             default-active="1"
@@ -16,14 +16,22 @@
             </el-menu>
         </el-col>
     </div>
+    <el-tabs v-else v-model="activeName" @tab-click="handleClick" class="tab">
+      <el-tab-pane 
+        v-for="blogType in blogTypes" 
+        :label="blogType.blogTypeTitle" 
+        :name="blogType.blogTypeId + ''"
+        :key="blogType.blogTypeId"
+      ></el-tab-pane>
+    </el-tabs>
     <div class="blogs-list">
         <ul>
             <li v-for="blog in blogs" @click="toBlog(blog.blogId)">
-                <div><img src="../assets/img/blog.png" alt=""></div>
+                <img src="../assets/img/blog.png" alt="">
                 <div>
-                    <h1>{{blog.blogTitle}}</h1>
+                    <h2>{{blog.blogTitle}}</h2>
                     <p>{{blog.blogContent}}</p>
-                    <span>创建时间：{{blog.blogTimestamp}}</span>
+                    <span>{{blog.blogTimestamp}}</span>
                 </div>
             </li>
         </ul>
@@ -40,43 +48,49 @@ export default {
     return {
       markdownText: '',
       blogs:[],
-      blogTypes:[]
+      blogTypes:[],
+      innerWidth:0,
+      activeName:''
     }
   },
   components:{
     MarkdownHtml
   },
   mounted() {
-      axiosPost('/BlogsController/selectBlogsByUserId',{
-        userId:3,
-        blogTypeId:1,
-      }).then(res => {
-        if (res.status == 0) {
-          this.blogs = res.data;
-        }
+      this.innerWidth = document.body.clientWidth;
+
+      window.addEventListener('resize',(e) => {
+        this.innerWidth = e.target.innerWidth;
       })
+
+      this.selectBlogs(1);
       axiosPost('/BlogTypeController/selectAll',{}).then(res => {
         if (res.status == 0) {
           this.blogTypes = res.data;
+          this.activeName = res.data[0].blogTypeId + '';
           localStorage.setItem('blogTypes',JSON.stringify(res.data));
         }
       })
   },
   methods: {
       handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+        this.selectBlogs(key);
+      },
+      toBlog(blogFileName){
+        this.$router.push('/Blog/' + blogFileName)
+      },
+      handleClick(){
+        this.selectBlogs(this.activeName);
+      },
+      selectBlogs(blogTypeId){
         axiosPost('/BlogsController/selectBlogsByUserId',{
           userId:3,
-          blogTypeId:key,
+          blogTypeId:blogTypeId,
         }).then(res => {
           if (res.status == 0) {
             this.blogs = res.data;
           }
         })
-      },
-      toBlog(blogFileName){
-        console.log(1321312312);
-        this.$router.push('/Blog/' + blogFileName)
       }
   },
 }
@@ -84,30 +98,22 @@ export default {
 
 <style lang='stylus' scoped>
 .blogs
-    display flex
     .blogs-menu
         width 165px
     .blogs-list
-        width calc(100% - 165px)
-        box-sizing border-box
-    .el-menu-vertical-demo
-        span
-            font-weight 800
-            font-size 20px
-    .blogs-list
-        font-weight 800
-        font-size 18px
         li
             background-color #fff
             margin 20px
             border 2px solid #ccc
             border-radius 6px
-            display flex
             cursor pointer
-        li>:first-child
-            flex 1
+            transition border-color .5s
+            overflow hidden
+            &:hover 
+              border-color #409EFF
             img 
                 max-width 128px
+                float left
         li>:last-child
             flex 6
             position relative
@@ -118,5 +124,12 @@ export default {
                 position absolute
                 bottom 5px
                 right 5px
-
+// 宽度大于 800px
+@media screen and (min-width 800px)
+  .blogs
+    display flex
+    padding 0 40px
+    .blogs-list
+        width calc(100% - 165px)
+        box-sizing border-box
 </style>

@@ -19,6 +19,11 @@ var _axios = axios.create({
    * @param {Boolean} check  是否需要检测用户信息 默认需要检查
    */
 export function axiosPost(url, params) {
+    let pass = localStorage.getItem('pass');
+    //请求参数中增加 通行参数 用户后台验证
+    if (pass) {
+        params.pass = pass;
+    }
     return new Promise((resolve, reject) => {
         
         console.log('请求值---', url, params);

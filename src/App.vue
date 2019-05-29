@@ -1,23 +1,27 @@
 <template>
   <div id="app">
-    <router-view/>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 
 <script>
+import {isPC} from './utils/js/commonUtils'
 import {createCanvas} from './utils/bgcanvas/circleLine.js'
 export default {
   name: 'App',
   mounted(){
     //创建背景
-    createCanvas();
-  },
+    const type = navigator.userAgent;
+    if (isPC()) {
+        createCanvas();
+    }
+  }
 }
 </script>
 
 <style lang="stylus">
-@import "./styles/font.css";
 #app
-  font-family: xingshu;
   background-color rgba(238, 238, 238, .5)
 </style>

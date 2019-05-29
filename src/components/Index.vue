@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <header>
-      <span>张小叶的BLOG</span>
+      <h3><i>张小叶的BLOG</i></h3>
       <a @click="write">写文章</a>
     </header>
     <div class="index-content">
@@ -10,10 +10,12 @@
     <div v-if="scrollTop > 0" @click="toTop" class="to-top">
       <img src="../assets/img/top.png" alt="">
     </div>
+    <footer></footer>
   </div>
 </template>
 
 <script>
+import {isPC} from '../utils/js/commonUtils'
 import Home from './Home'
 export default {
   name: 'Index',
@@ -33,14 +35,15 @@ export default {
     })
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
     toTop(){
       window.scrollTo(0,0);
     },
     write(){
-        this.$router.push('/BlogEdit')
+        if (isPC()) {
+          this.$router.push('/BlogEdit');
+        }else{
+          this.$message.error('移动端暂不支持写文章！');
+        }
     }
   },
 }
@@ -51,17 +54,13 @@ export default {
     margin 0 auto
     header 
         background-color #ccc
-        padding 0 40px
         height 50px
         display flex
         align-items center
         justify-content space-between
-        span,a
-          font-weight 800
-          font-size 40px
+        a,h3
+          font-weight bold
           cursor pointer
-    .index-content
-      padding 0 40px
     .to-top
       position fixed
       right 20px
@@ -74,4 +73,12 @@ export default {
         border-radius 0px
       img
         width 64px
+    footer
+      height 150px
+      margin-top 10px
+// 宽度大于 800px
+@media screen and (min-width 800px)
+  .index
+    header,.index-content
+        padding 0 40px
 </style>

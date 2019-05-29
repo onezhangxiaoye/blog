@@ -1,7 +1,5 @@
 <template>
-  <div class="marked" v-html="markDownHTML" id="marked">
-
-  </div>
+  <div class="marked" v-html="markDownHTML" id="marked"></div>
 </template>
 
 <script>
@@ -53,13 +51,14 @@ export default {
 </script>
 
 <style lang='stylus'>
-    textarea,.marked
+    .marked
         resize:none
         width: 100%
         height: 100%
         border none
-    .marked
         overflow: auto
+        padding 0 10px
+        box-sizing border-box
         blockquote
             border-left: 2px solid #009A61
             padding: 20px 0 20px 10px
@@ -68,6 +67,9 @@ export default {
             padding-left: 10px
         pre
             margin: 10px 0
+            font-size: 14px
         img 
             width 100%
+        p
+            line-height 22px  
 </style>

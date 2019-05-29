@@ -18,8 +18,8 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'Home',
-          component: Home
+          name: 'Blogs',
+          component: Blogs
         },
         {
           path: '/Blog/:blogId',

@@ -10,3 +10,19 @@ export function timeFormatting(_time) {
     const time = _time || new Date();
     return time.getFullYear() + '-' + dealNum(time.getMonth() + 1) + '-' + dealNum(time.getDate()) + ' ' + dealNum(time.getHours()) + ':' + dealNum(time.getMinutes()) + ':' + dealNum(time.getSeconds());
 }
+
+/** 是否为PC端
+ * 
+ */
+export function isPC () {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod", 'XiaoMi'];
+    var flag = true;
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            flag = false;
+            break;
+        }
+    }
+    return flag;
+}
