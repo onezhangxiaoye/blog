@@ -1,11 +1,13 @@
 <template>
-  <div class="index">
+  <div class="index" >
     <header>
       <h3><i>张小叶的BLOG</i></h3>
       <a @click="write">写文章</a>
     </header>
     <div class="index-content">
+      <keep-alive>
         <router-view/>
+      </keep-alive>
     </div>
     <div v-if="scrollTop > 0" @click="toTop" class="to-top">
       <img src="../assets/img/top.png" alt="">
@@ -25,7 +27,7 @@ export default {
   data () {
     return {
       activeName: 'first',
-      scrollTop:0
+      scrollTop:0,
     }
   },
   mounted(){

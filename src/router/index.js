@@ -1,14 +1,13 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+// import Vue from 'vue'
+// import VueRouter from 'vue-router'
 import BlogEdit from '@/components/BlogEdit'
 import Blogs from '@/components/Blogs'
-import Home from '@/components/Home'
 import Index from '@/components/Index'
 import Blog from '@/components/Blog'
 
-Vue.use(Router)
+// Vue.use(Router)
 
-export default new Router({
+export default new VueRouter({
   mode: 'history',
   routes: [
     {

@@ -1,5 +1,5 @@
 <template>
-  <div class="blogs">
+  <div  class="blogs" >
     <div class="blogs-menu" v-if="innerWidth > 800">
         <el-col>
             <el-menu
@@ -41,7 +41,6 @@
 
 <script>
 import {axiosPost} from '../utils/js/requestApi.js'
-import MarkdownHtml from './MarkdownHtml'
 export default {
   name: 'Blogs',
   data () {
@@ -50,27 +49,19 @@ export default {
       blogs:[],
       blogTypes:[],
       innerWidth:0,
-      activeName:''
+      activeName:'',
+      loading:true
     }
   },
-  components:{
-    MarkdownHtml
-  },
-  mounted() {
+  created(){
       this.innerWidth = document.body.clientWidth;
 
       window.addEventListener('resize',(e) => {
         this.innerWidth = e.target.innerWidth;
       })
-
-      this.selectBlogs(1);
-      axiosPost('/BlogTypeController/selectAll',{}).then(res => {
-        if (res.status == 0) {
-          this.blogTypes = res.data;
-          this.activeName = res.data[0].blogTypeId + '';
-          localStorage.setItem('blogTypes',JSON.stringify(res.data));
-        }
-      })
+  },
+  mounted() {
+      this.selectBlogs(1,true);
   },
   methods: {
       handleSelect(key, keyPath) {
@@ -82,7 +73,7 @@ export default {
       handleClick(){
         this.selectBlogs(this.activeName);
       },
-      selectBlogs(blogTypeId){
+      selectBlogs(blogTypeId,getBlogType = false){
         axiosPost('/BlogsController/selectBlogsByUserId',{
           userId:3,
           blogTypeId:blogTypeId,
@@ -90,7 +81,21 @@ export default {
           if (res.status == 0) {
             this.blogs = res.data;
           }
-        })
+          if (this.loading) {
+            setTimeout(() => {
+              this.loading = false;
+            }, 3000);
+          }
+        });
+        if (getBlogType) {
+          axiosPost('/BlogTypeController/selectAll',{}).then(res => {
+            if (res.status == 0) {
+              this.blogTypes = res.data;
+              this.activeName = res.data[0].blogTypeId + '';
+              localStorage.setItem('blogTypes',JSON.stringify(res.data));
+            }
+          })
+        }
       }
   },
 }

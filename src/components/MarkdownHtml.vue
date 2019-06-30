@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import marked from 'marked'
-import hljs from 'highlight.js'
+// import marked from 'marked'
+// import hljs from 'highlight.js'
 export default {
   name: 'MarkdownHtml',
   props:{
@@ -56,7 +56,6 @@ export default {
         width: 100%
         height: 100%
         border none
-        overflow: auto
         padding 0 10px
         box-sizing border-box
         blockquote
@@ -71,5 +70,11 @@ export default {
         img 
             width 100%
         p
-            line-height 22px  
+            line-height 22px
+    code
+      background-color #e7e7e7
+      color #ff3860
+      font-weight 400
+      padding .25em .5em .25em
+      border-radius 8px
 </style>

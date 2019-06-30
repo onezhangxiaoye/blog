@@ -1,5 +1,5 @@
 {
-  "name": "exprice",
+  "name": "12317xiangblog",
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "yuehaiming <915873514@qq.com>",
@@ -10,19 +10,21 @@
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "analyz": "cross-env NODE_ENV=production npm_config_report=true npm run build"
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "cross-env": "^5.2.0",
     "element-ui": "^2.8.2",
     "highlight.js": "^9.15.6",
-    "markdown": "^0.5.0",
     "marked": "^0.6.2",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
-    "vux-loader": "^1.2.9"
+    "vux-loader": "^1.2.9",
+    "webpack-bundle-analyzer": "^3.3.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -69,7 +71,6 @@
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
-    "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0"
   },

@@ -51,7 +51,7 @@
       :multiple="false"
       :on-success='fileUploadSuccess'
       :before-upload="beforeAvatarUpload"
-      action="http://localhost:8123/FileController/onefileUpload"
+      :action="uploadAction"
       :data="pass"
       :auto-upload="false">
       <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import {markdown} from 'markdown'
 import {axiosPost} from '../utils/js/requestApi.js'
 import {timeFormatting} from '../utils/js/commonUtils'
 import baseData from '../utils/js/baseData.js'
@@ -91,6 +90,7 @@ export default {
       blogTypeId:'',
       blogTypes:[],
       pass:{},
+      uploadAction:baseData.baseURL + '/FileController/onefileUpload'
     }
   },
   mounted() {
@@ -320,6 +320,7 @@ export default {
         height: 100%
         box-sizing: border-box
         border: 1px solid #ccc
+        overflow auto
         textarea
             resize:none
             width: 100%

@@ -17,7 +17,7 @@ export default {
         //腾讯服务器 图片地址
         // imgPath:'http://45.40.196.53:9000/img/imgData/',
         //阿里服务器 图片地址
-        imgPath:'http://47.105.161.197:9000/img/',
+        imgPath:'http://images.12317xiang.xyz/img/',
         // imgPath:'http://192.168.1.158:9000/img/',
 }
 /**
@@ -25,5 +25,5 @@ export default {
  */
 function getIP() {
         return 'http://' + window.location.hostname + ':8123';
-        // return 'http://47.105.161.197:8123';
+        // return 'http://apijava.12317xiang.xyz';
 }
