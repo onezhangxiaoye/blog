@@ -1,1 +1,5 @@
-node_modules
+.idea
+/node_modules/
+yarn.lock
+docs/.vuepress/.cache
+docs/.vuepress/.temp
