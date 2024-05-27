@@ -1,3 +1,4 @@
 - 2021年3月10日，博客迁移到了 vuePress
 - 2021年10月1日，博客升级使用 [vuepress 2.0.0-beta.26](https://vuepress.vuejs.org/zh/)
 - 2023年2月23日，博客升级使用 [vitepress 1.0.0-alpha.47](https://vitepress.vuejs.org/)
+- 2024年5月27日，博客升级使用 [vitepress 1.2.2](https://vitepress.vuejs.org/)
