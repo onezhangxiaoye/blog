@@ -3,3 +3,5 @@
 yarn.lock
 docs/.vuepress/.cache
 docs/.vuepress/.temp
+dist
+*.log

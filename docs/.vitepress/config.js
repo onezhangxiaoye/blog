@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
     title: 'ZhangXiaoYe',
     description: 'ZhangXiaoYe的文档记录',
-    base: '/blog/',
+    base: '/',
     lastUpdated: true,
     locales: {
         // 默认中文显示
